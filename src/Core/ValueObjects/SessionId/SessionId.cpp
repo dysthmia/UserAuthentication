@@ -29,7 +29,7 @@ namespace {
             );
         }
 
-        for (int i = 0; i < value.size(); ++i) {
+        for (int i = 0; i < static_cast<int>(value.size()); ++i) {
             if (IsHyphenPosition(i)) {
                 if (value[i] != '-') {
                     throw std::invalid_argument(
