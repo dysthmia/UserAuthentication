@@ -10,5 +10,5 @@ class UserId {
 
     private:
         std::string value_;
-        explicit UserId(std::string value){};
+        explicit UserId(std::string value);
 };
