@@ -1,5 +1,5 @@
 add_library(Infrastructure
-    Infrastructure.cpp
+    Config/AppConfig.cpp
 )
 
 target_include_directories(Infrastructure
