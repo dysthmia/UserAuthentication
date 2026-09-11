@@ -1,0 +1,13 @@
+{
+  "name": "user-authentication",
+  "version": "0.1.0",
+  "dependencies": [
+    "libpqxx",
+    "redis-plus-plus",
+    "jwt-cpp",
+    "openssl",
+    "unofficial-argon2",
+    "stduuid",
+    "nlohmann-json"
+  ]
+}
