@@ -31,8 +31,12 @@ class User {
         TimePoint created_at,
         TimePoint updated_at
     );
+
+    const std::string GetAllInformation() const;
         
     private:
+        std::string GetStringRole() const;
+        
         explicit User(
             UserId user_id,
             PersonalData personal_data,

@@ -1,4 +1,5 @@
 #include "User.h"
+#include <format>
 
 User::User (
         UserId user_id,
@@ -73,4 +74,31 @@ User User::Restore(
         created_at,
         updated_at
     );
+}
+
+std::string User::GetStringRole() const {
+    switch (user_role_)
+    {
+    case UserRole::User: return "Default User";
+    case UserRole::Admin : return "Admin";
+    default:
+        return "UNKNOW";
+    }
+}
+
+const std::string User::GetAllInformation() const {
+    std::string user_id       = "User ID: " + user_id_.GetValue();
+    std::string user_role     ="User Role: " +  GetStringRole();      
+    std::string personal_data = "Name: "+ personal_data_.GetName() + "; Username: "  
+                              + personal_data_.GetUsername() + "; Email: " 
+                              + personal_data_.GetEmail();
+    std::string password_hash ="Password hash: " +  password_hash_;
+    std::string timing ="Created at: " + std::format("{:%Y-%m-%d %H:%M:%S}", created_at_) 
+                       + "; Updated at: " +
+                       std::format("{:%Y-%m-%d %H:%M:%S}", updated_at_) ;
+
+    const std::string  answer = user_id + "\n" + user_role + "\n" + personal_data + "\n"
+         + password_hash + "\n" + timing;
+
+    return answer;
 }
