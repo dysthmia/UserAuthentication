@@ -5,9 +5,7 @@
 #include "ValueObjects/UserId/UserId.h"
 #include "ValueObjects/PersonalData/PersonalData.h"
 
-namespace {
-    using TimePoint = std::chrono::system_clock::time_point;
-}
+using TimePoint = std::chrono::system_clock::time_point;
 
 class User {
     public:
