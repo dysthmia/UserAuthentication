@@ -32,11 +32,15 @@ class User {
         TimePoint updated_at
     );
 
-    const std::string GetAllInformation() const;
+    const std::string GetUserRole() const;
+    const std::string GetPasswordHash() const;
+    const std::string GetCreatedAt() const;
+    const std::string GetUpdatedAt() const;
+
+    const PersonalData GetUserPersonalData() const;
+    const UserId GetUserId() const;
         
     private:
-        std::string GetStringRole() const;
-        
         explicit User(
             UserId user_id,
             PersonalData personal_data,
@@ -49,9 +53,7 @@ class User {
         UserId user_id_;
         PersonalData personal_data_;
         UserRole user_role_;
-
         std::string password_hash_;
-
         TimePoint created_at_;
         TimePoint updated_at_;
 };
