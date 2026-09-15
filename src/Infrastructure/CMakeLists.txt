@@ -1,6 +1,7 @@
 add_library(Infrastructure
     Config/AppConfig.cpp
     PostgreSQL/PostgresConnection.cpp
+    PostgreSQL/UserRepository.cpp
 )
 
 target_include_directories(Infrastructure
