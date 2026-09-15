@@ -4,6 +4,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <vector>
 
 struct redisContext;
 
@@ -34,6 +35,12 @@ class RedisConnection {
         bool Exists(const std::string& key);
         void Expire(const std::string& key, std::chrono::seconds ttl);
         long long Increment(const std::string& key);
+
+        // Set (collection) commands used by RedisSessionStore for the
+        // user -> sessions index.
+        void SAdd(const std::string& key, const std::string& member);
+        void SRem(const std::string& key, const std::string& member);
+        std::vector<std::string> SMembers(const std::string& key);
 
         // Returns the underlying hiredis context (nullable).
         redisContext* Handle() const noexcept;

@@ -24,6 +24,23 @@ namespace {
             RedisReply(const RedisReply&) = delete;
             RedisReply& operator=(const RedisReply&) = delete;
 
+            RedisReply(RedisReply&& other) noexcept
+                : reply_(other.reply_)
+            {
+                other.reply_ = nullptr;
+            }
+
+            RedisReply& operator=(RedisReply&& other) noexcept {
+                if (this != &other) {
+                    if (reply_ != nullptr) {
+                        freeReplyObject(reply_);
+                    }
+                    reply_ = other.reply_;
+                    other.reply_ = nullptr;
+                }
+                return *this;
+            }
+
             redisReply* get() const noexcept { return reply_; }
 
         private:
@@ -157,11 +174,7 @@ void RedisConnection::Set(const std::string& key, const std::string& value) {
     CheckReply(context, reply);
 }
 
-void RedisConnection::SetEx(
-        const std::string& key,
-        const std::string& value,
-        std::chrono::seconds ttl
-    )
+void RedisConnection::SetEx(const std::string& key,const std::string& value,std::chrono::seconds ttl)
 {
     redisContext* context = Connection();
 
@@ -228,5 +241,55 @@ long long RedisConnection::Increment(const std::string& key) {
 
     RedisReply result = CheckReply(context, reply);
     return result.get()->integer;
+}
+
+void RedisConnection::SAdd(const std::string& key, const std::string& member) {
+    redisContext* context = Connection();
+
+    redisReply* reply = redisCommand(
+        context,
+        "SADD %b %b",
+        key.data(), key.size(),
+        member.data(), member.size()
+    );
+
+    CheckReply(context, reply);
+}
+
+void RedisConnection::SRem(const std::string& key, const std::string& member) {
+    redisContext* context = Connection();
+
+    redisReply* reply = redisCommand(
+        context,
+        "SREM %b %b",
+        key.data(), key.size(),
+        member.data(), member.size()
+    );
+
+    CheckReply(context, reply);
+}
+
+std::vector<std::string> RedisConnection::SMembers(const std::string& key) {
+    redisContext* context = Connection();
+
+    redisReply* reply = redisCommand(
+        context,
+        "SMEMBERS %b",
+        key.data(),
+        key.size()
+    );
+
+    RedisReply result = CheckReply(context, reply);
+
+    std::vector<std::string> members;
+    const redisReply* reply_ptr = result.get();
+    if (reply_ptr->type == REDIS_REPLY_ARRAY) {
+        members.reserve(reply_ptr->elements);
+        for (std::size_t i = 0; i < reply_ptr->elements; ++i) {
+            const redisReply* element = reply_ptr->element[i];
+            members.emplace_back(element->str, element->len);
+        }
+    }
+    return members;
 }
 
