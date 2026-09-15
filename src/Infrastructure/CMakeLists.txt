@@ -3,6 +3,7 @@ add_library(Infrastructure
     PostgreSQL/PostgresConnection.cpp
     PostgreSQL/UserRepository.cpp
     Redis/RedisConnection.cpp
+    Redis/RedisSessionStore.cpp
 )
 
 target_include_directories(Infrastructure
