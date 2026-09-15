@@ -94,7 +94,7 @@ const std::string User::GetCreatedAt() const{
 }
 
 const std::string User::GetUpdatedAt() const {
-    return std::format("{:%Y-%m-%d %H:%M:S}", updated_at_);
+    return std::format("{:%Y-%m-%d %H:%M:%S}", updated_at_);
 }
 
 const PersonalData User::GetUserPersonalData() const{
