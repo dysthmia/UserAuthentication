@@ -4,6 +4,7 @@ add_library(Infrastructure
     PostgreSQL/UserRepository.cpp
     Redis/RedisConnection.cpp
     Redis/RedisSessionStore.cpp
+    Redis/RedisRateLimiter.cpp
 )
 
 target_include_directories(Infrastructure
